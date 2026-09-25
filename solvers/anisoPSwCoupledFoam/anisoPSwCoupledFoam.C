@@ -69,9 +69,11 @@ int main(int argc, char *argv[])
 
     Info<< "\nStarting time loop\n" << endl;
 
-    while (runTime.loop())
+    while (runTime.run()) // .run() + setDeltaT.H + runTime++ at start of loop
     {
         #include "readBlockSolverControls.H"
+        #include "setDeltaT.H"
+        runTime++;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
@@ -101,8 +103,6 @@ int main(int argc, char *argv[])
             << " Max = " << gMax(phasew.alpha()) <<  endl;
 
         runTime.write();
-        #include "setDeltaT.H"
-        runTime++;
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
